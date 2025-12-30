@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My 2025 Story</title>
+    <style>
+        /* CSS is unchanged */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .story.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .story.prev {
+            transform: translateX(-100%) scale(0.8);
+        }
+
+        .story.next {
+            transform: translateX(100%) scale(0.8);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .story h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .story p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+
+        .stat-number {
+            font-size: clamp(3rem, 15vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            animation: scaleIn 0.6s ease-out 0.3s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 100;
+            width: 90%;
+            max-width: 600px;
+            padding: 0 10px;
+        }
+
+        .progress-dot {
+            flex: 1;
+            height: 3px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        .progress-dot.active {
+            background: #fff;
+        }
+
+        .navigation {
+            display: none;
+        }
+
+        .music-control {
+            display: none;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .photo-item:nth-child(1) { animation-delay: 0.2s; }
+        .photo-item:nth-child(2) { animation-delay: 0.3s; }
+        .photo-item:nth-child(3) { animation-delay: 0.4s; }
+        .photo-item:nth-child(4) { animation-delay: 0.5s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+                @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .start-btn {
+            padding: 20px 50px;
+            font-size: 1.2rem;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <h1>✨ My 2024 Story ✨</h1>
+            <button class="start-btn" onclick="startExperience()">Let's Start</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar" id="progressBar"></div>
+        
+        <!-- Story 1 -->
+        <div class="story active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="particles" id="particles1"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>2024</h1>
+                <p>A year full of memories, experiences, and growth...</p>
+            </div>
+        </div>
+
+        <!-- Story 2 -->
+        <div class="story" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <div class="particles" id="particles2"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>This Year</h1>
+                <div class="stat-number">365</div>
+                <p>days of learning something new every single day</p>
+            </div>
+        </div>
+
+        <!-- Story 3 -->
+        <div class="story" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <div class="particles" id="particles3"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Places I Visited</h1>
+                <div class="stat-number">12</div>
+                <p>different cities explored</p>
+            </div>
+        </div>
+
+        <!-- Story 4 -->
+        <div class="story" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Best Moments</h1>
+                <div class="photo-grid">
+                    <div class="photo-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <div class="photo-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <div class="photo-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="photo-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story 5 -->
+        <div class="story" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+            <div class="particles" id="particles5"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>My Achievements</h1>
+                <div class="stat-number">47</div>
+                <p>goals completed and ready for more</p>
+            </div>
+        </div>
+
+        <!-- Story 6 -->
+        <div class="story" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+            <div class="particles" id="particles6"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Books Read</h1>
+                <div class="stat-number">23</div>
+                <p>books read to improve myself</p>
+            </div>
+        </div>
+
+        <!-- Story 7 -->
+        <div class="story" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Precious People</h1>
+                <p>Thanks to everyone who entered my life and made it better this year</p>
+            </div>
+        </div>
+
+        <!-- Story 8 -->
+        <div class="story" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%, #feada6 100%);">
+            <div class="particles" id="particles8"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Podcasts</h1>
+                <div class="stat-number">89</div>
+                <p>hours of podcasts listened to for new perspectives</p>
+            </div>
+        </div>
+
+        <!-- Story 9 -->
+        <div class="story" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+            <div class="particles" id="particles9"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Fitness</h1>
+                <div class="stat-number">156</div>
+                <p>days spent working out for myself</p>
+            </div>
+        </div>
+
+        <!-- Story 10 -->
+        <div class="story" style="background: linear-gradient(135deg, #fa8bff 0%, #2bd2ff 90%, #2bff88 100%);">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>New Hobbies</h1>
+                <p>Tried new things this year and continued discovering myself</p>
+            </div>
+        </div>
+
+        <!-- Story 11 -->
+        <div class="story" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">
+            <div class="particles" id="particles11"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Coffee Break</h1>
+                <div class="stat-number">340</div>
+                <p>cups of coffee accompanied by great conversations</p>
+            </div>
+        </div>
+
+        <!-- Story 12 -->
+        <div class="story" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Projects</h1>
+                <p>My projects turning from dreams into reality</p>
+            </div>
+        </div>
+
+        <!-- Story 13 -->
+        <div class="story" style="background: linear-gradient(135deg, #f77062 0%, #fe5196 100%);">
+            <div class="particles" id="particles13"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Food Adventures</h1>
+                <div class="stat-number">73</div>
+                <p>new restaurants and flavors discovered</p>
+            </div>
+        </div>
+
+        <!-- Story 14 -->
+        <div class="story" style="background: linear-gradient(135deg, #c471f5 0%, #fa71cd 100%);">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Key Learnings</h1>
+                <p>One step forward every day, a little wiser every day</p>
+            </div>
+        </div>
+
+        <!-- Story 15 -->
+        <div class="story" style="background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);">
+            <div class="particles" id="particles15"></div>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Hello 2025</h1>
+                <p>Wishing for more memories, more success, and more happiness in the new year... 🎉</p>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="prevStory()">← Previous</button>
+            <button class="nav-btn" id="nextBtn" onclick="nextStory()">Next →</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+
+    <audio id="music0" src="music/story1.mp3" loop></audio>
+    <audio id="music1" src="music/story2.mp3" loop></audio>
+    <audio id="music2" src="music/story3.mp3" loop></audio>
+    <audio id="music3" src="music/story4.mp3" loop></audio>
+    <audio id="music4" src="music/story5.mp3" loop></audio>
+    <audio id="music5" src="music/story6.mp3" loop></audio>
+    <audio id="music6" src="music/story7.mp3" loop></audio>
+    <audio id="music7" src="music/story8.mp3" loop></audio>
+    <audio id="music8" src="music/story9.mp3" loop></audio>
+    <audio id="music9" src="music/story10.mp3" loop></audio>
+    <audio id="music10" src="music/story11.mp3" loop></audio>
+    <audio id="music11" src="music/story12.mp3" loop></audio>
+    <audio id="music12" src="music/story13.mp3" loop></audio>
+    <audio id="music13" src="music/story14.mp3" loop></audio>
+    <audio id="music14" src="music/story15.mp3" loop></audio>
+
+    <script>
+        let currentStory = 0;
+        const stories = document.querySelectorAll('.story');
+        const totalStories = stories.length;
+        const progressBar = document.getElementById('progressBar');
+        const bgMusic = document.getElementById('bgMusic');
+        let musicPlaying = false;
+        let currentMusic = null;
+        const musicTracks = [];
+
+        // Collect all music tracks
+        for (let i = 0; i < totalStories; i++) {
+            musicTracks.push(document.getElementById('music' + i));
+        }
+
+        // Create progress dots
+        for (let i = 0; i < totalStories; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot';
+            if (i === 0) dot.classList.add('active');
+            progressBar.appendChild(dot);
+        }
+
+        // Create particles for each story
+        function createParticles(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        createParticles('particles1');
+        createParticles('particles2');
+        createParticles('particles3');
+        createParticles('particles5');
+        createParticles('particles6');
+        createParticles('particles8');
+        createParticles('particles9');
+        createParticles('particles11');
+        createParticles('particles13');
+        createParticles('particles15');
+
+        function playStoryMusic(storyIndex) {
+            // Stop previous music
+            if (currentMusic) {
+                currentMusic.pause();
+                currentMusic.currentTime = 0;
+            }
+
+            // Play new music
+            if (musicTracks[storyIndex] && musicPlaying) {
+                currentMusic = musicTracks[storyIndex];
+                currentMusic.volume = 0.5;
+                currentMusic.play().catch(e => console.log('Music could not be played:', e));
+            }
+        }
+
+        function updateStory() {
+            stories.forEach((story, index) => {
+                story.classList.remove('active', 'prev', 'next');
+                if (index === currentStory) {
+                    story.classList.add('active');
+                } else if (index < currentStory) {
+                    story.classList.add('prev');
+                } else {
+                    story.classList.add('next');
+                }
+            });
+
+            // Update progress bar
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index <= currentStory);
+            });
+
+            // Play story music
+            playStoryMusic(currentStory);
+        }
+
+        function nextStory() {
+            if (currentStory < totalStories - 1) {
+                currentStory++;
+                updateStory();
+            }
+        }
+
+        function prevStory() {
+            if (currentStory > 0) {
+                currentStory--;
+                updateStory();
+            }
+        }
+
+        function toggleMusic() {
+            musicPlaying = !musicPlaying;
+            
+            if (musicPlaying) {
+                playStoryMusic(currentStory);
+            } else {
+                if (currentMusic) {
+                    currentMusic.pause();
+                }
+            }
+        }
+
+        function startExperience() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            musicPlaying = true;
+            playStoryMusic(0);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextStory();
+            if (e.key === 'ArrowLeft') prevStory();
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextStory();
+            if (touchEndX > touchStartX + 50) prevStory();
+        }
+
+        // Mouse click navigation
+        document.querySelector('.container').addEventListener('click', (e) => {
+            if (e.target.closest('.music-control')) return;
+            
+            const clickX = e.clientX;
+            const screenWidth = window.innerWidth;
+            
+            if (clickX < screenWidth / 2) {
+                prevStory();
+            } else {
+                nextStory();
+            }
+        });
+    </script>
+</body>
+</html>
