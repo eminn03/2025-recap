@@ -31,13 +31,12 @@ You are welcome to use this repository as a template for your own "Year in Revie
 3.  **Add Your Photos**:
     - Replace the background images or the photo grid images with your own.
 
-### Important: Music & Audio Setup
+### Important: Music & Image Setup
 
-To keep the repository lightweight, example music files are **not included**. You must add your own audio files for the experience to work correctly.
+To keep the repository lightweight, example music and image files are **not included**. You must add your own audio files for the experience to work correctly.
 
-1.  Create a folder named `music` in the root directory.
-2.  Add your audio files to this folder.
-3.  **Naming Convention**: The code expects specific filenames corresponding to each story slide index (starting from 0).
+1.  Copy your musics into folder named `music` and images (must be .jpg , otherwise you must edit the code) to folder named `images` in the root directory.
+2.  **Naming Convention**: The code expects specific filenames corresponding to each story slide index (starting from 0).
     - `story1.mp3` (for the first slide)
     - `story2.mp3` (for the second slide)
     - ...and so on.
