@@ -46,7 +46,7 @@ To keep the repository lightweight, example music and image files are **not incl
 my-2025-story/
 ├── index.html
 ├── README.md
-└── music/           <-- You must create this
+└── music/           
     ├── story1.mp3
     ├── story2.mp3
     ├── story3.mp3
