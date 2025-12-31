@@ -43,9 +43,14 @@ To keep the repository lightweight, example music and image files are **not incl
     
 **Directory Structure:**
 ```text
-my-2025-story/
+2025-recap/
 ├── index.html
 ├── README.md
+├── images/
+    ├──story1.jpg
+    ├──story2.jpg
+    ├──story3.jpg
+    └── ...
 └── music/           
     ├── story1.mp3
     ├── story2.mp3
