@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My 2025 Story</title>
+    <title>My 2025 Year</title>
     <style>
-        /* CSS is unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -36,8 +35,6 @@
             opacity: 0;
             transform: scale(0.8);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            background-size: cover;
-            background-position: center;
         }
 
         .story.active {
@@ -54,19 +51,42 @@
             transform: translateX(100%) scale(0.8);
         }
 
+        /* Arka plan fotoğrafı */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        /* Gradient overlay - şeffaf */
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Koyu overlay - okunabilirlik için */
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
-            z-index: 1;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+            z-index: 2;
         }
 
         .content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             text-align: center;
             padding: 40px;
             max-width: 600px;
@@ -88,13 +108,13 @@
             font-size: clamp(2rem, 8vw, 4rem);
             margin-bottom: 20px;
             font-weight: 900;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
 
         .story p {
             font-size: clamp(1rem, 3vw, 1.5rem);
             line-height: 1.6;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
         }
 
         .stat-number {
@@ -106,6 +126,8 @@
             background-clip: text;
             margin: 20px 0;
             animation: scaleIn 0.6s ease-out 0.3s both;
+            text-shadow: none;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
         }
 
         @keyframes scaleIn {
@@ -144,10 +166,6 @@
         }
 
         .navigation {
-            display: none;
-        }
-
-        .music-control {
             display: none;
         }
 
@@ -195,7 +213,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            z-index: 0;
+            z-index: 2;
         }
 
         .particle {
@@ -224,7 +242,7 @@
             }
         }
 
-                @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .content {
                 padding: 20px;
             }
@@ -280,26 +298,30 @@
 <body>
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
-            <h1>✨ My 2024 Story ✨</h1>
-            <button class="start-btn" onclick="startExperience()">Let's Start</button>
+            <h1>My 2025 Year</h1>
+            <button class="start-btn" onclick="startExperience()">Start</button>
         </div>
     </div>
 
     <div class="container">
         <div class="progress-bar" id="progressBar"></div>
-        
+
         <!-- Story 1 -->
-        <div class="story active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="story active">
+            <div class="bg-image" style="background-image: url('images/story1.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(102,126,234,0.7) 0%, rgba(118,75,162,0.7) 100%);"></div>
             <div class="particles" id="particles1"></div>
             <div class="overlay"></div>
             <div class="content">
-                <h1>2024</h1>
+                <h1>2025</h1>
                 <p>A year full of memories, experiences, and growth...</p>
             </div>
         </div>
 
         <!-- Story 2 -->
-        <div class="story" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <div class="story">
+            <div class="bg-image" style="background-image: url('images/story2.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(240,147,251,0.7) 0%, rgba(245,87,108,0.7) 100%);"></div>
             <div class="particles" id="particles2"></div>
             <div class="overlay"></div>
             <div class="content">
@@ -310,18 +332,22 @@
         </div>
 
         <!-- Story 3 -->
-        <div class="story" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <div class="story">
+            <div class="bg-image" style="background-image: url('images/story3.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(79,172,254,0.7) 0%, rgba(0,242,254,0.7) 100%);"></div>
             <div class="particles" id="particles3"></div>
             <div class="overlay"></div>
             <div class="content">
                 <h1>Places I Visited</h1>
-                <div class="stat-number">12</div>
+                <div class="stat-number">28</div>
                 <p>different cities explored</p>
             </div>
         </div>
 
         <!-- Story 4 -->
-        <div class="story" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+        <div class="story">
+            <div class="bg-image" style="background-image: url('images/story4.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(250,112,154,0.7) 0%, rgba(254,225,64,0.7) 100%);"></div>
             <div class="overlay"></div>
             <div class="content">
                 <h1>Best Moments</h1>
@@ -334,8 +360,10 @@
             </div>
         </div>
 
-        <!-- Story 5 -->
-        <div class="story" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <!-- Story 5  -->
+        <div class="story">
+            <div class="bg-image" style="background-image: url('images/story5.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(67,233,123,0.7) 0%, rgba(56,249,215,0.7) 100%);"></div>
             <div class="particles" id="particles5"></div>
             <div class="overlay"></div>
             <div class="content">
@@ -345,8 +373,10 @@
             </div>
         </div>
 
-        <!-- Story 6 -->
-        <div class="story" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+        <!-- Story 6  -->
+        <div class="story">
+            <div class="bg-image" style="background-image: url('images/story6.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(168,237,234,0.7) 0%, rgba(254,214,227,0.7) 100%);"></div>
             <div class="particles" id="particles6"></div>
             <div class="overlay"></div>
             <div class="content">
@@ -357,7 +387,9 @@
         </div>
 
         <!-- Story 7 -->
-        <div class="story" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+        <div class="story">
+            <div class="bg-image" style="background-image: url('images/story7.jpg');"></div>
+            <div class="gradient-overlay" style="background: linear-gradient(135deg, rgba(255,236,210,0.7) 0%, rgba(252,182,159,0.7) 100%);"></div>
             <div class="overlay"></div>
             <div class="content">
                 <h1>Precious People</h1>
@@ -366,77 +398,6 @@
         </div>
 
         <!-- Story 8 -->
-        <div class="story" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%, #feada6 100%);">
-            <div class="particles" id="particles8"></div>
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>Podcasts</h1>
-                <div class="stat-number">89</div>
-                <p>hours of podcasts listened to for new perspectives</p>
-            </div>
-        </div>
-
-        <!-- Story 9 -->
-        <div class="story" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
-            <div class="particles" id="particles9"></div>
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>Fitness</h1>
-                <div class="stat-number">156</div>
-                <p>days spent working out for myself</p>
-            </div>
-        </div>
-
-        <!-- Story 10 -->
-        <div class="story" style="background: linear-gradient(135deg, #fa8bff 0%, #2bd2ff 90%, #2bff88 100%);">
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>New Hobbies</h1>
-                <p>Tried new things this year and continued discovering myself</p>
-            </div>
-        </div>
-
-        <!-- Story 11 -->
-        <div class="story" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">
-            <div class="particles" id="particles11"></div>
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>Coffee Break</h1>
-                <div class="stat-number">340</div>
-                <p>cups of coffee accompanied by great conversations</p>
-            </div>
-        </div>
-
-        <!-- Story 12 -->
-        <div class="story" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>Projects</h1>
-                <p>My projects turning from dreams into reality</p>
-            </div>
-        </div>
-
-        <!-- Story 13 -->
-        <div class="story" style="background: linear-gradient(135deg, #f77062 0%, #fe5196 100%);">
-            <div class="particles" id="particles13"></div>
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>Food Adventures</h1>
-                <div class="stat-number">73</div>
-                <p>new restaurants and flavors discovered</p>
-            </div>
-        </div>
-
-        <!-- Story 14 -->
-        <div class="story" style="background: linear-gradient(135deg, #c471f5 0%, #fa71cd 100%);">
-            <div class="overlay"></div>
-            <div class="content">
-                <h1>Key Learnings</h1>
-                <p>One step forward every day, a little wiser every day</p>
-            </div>
-        </div>
-
-        <!-- Story 15 -->
         <div class="story" style="background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);">
             <div class="particles" id="particles15"></div>
             <div class="overlay"></div>
@@ -446,16 +407,8 @@
             </div>
         </div>
 
-        <div class="navigation">
-            <button class="nav-btn" id="prevBtn" onclick="prevStory()">← Previous</button>
-            <button class="nav-btn" id="nextBtn" onclick="nextStory()">Next →</button>
-        </div>
-    </div>
 
-    <audio id="bgMusic" loop>
-        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
-    </audio>
-
+    <!-- Hikaye müzikleri - her hikaye için ayrı -->
     <audio id="music0" src="music/story1.mp3" loop></audio>
     <audio id="music1" src="music/story2.mp3" loop></audio>
     <audio id="music2" src="music/story3.mp3" loop></audio>
@@ -477,12 +430,11 @@
         const stories = document.querySelectorAll('.story');
         const totalStories = stories.length;
         const progressBar = document.getElementById('progressBar');
-        const bgMusic = document.getElementById('bgMusic');
         let musicPlaying = false;
         let currentMusic = null;
         const musicTracks = [];
 
-        // Collect all music tracks
+        // Tüm müzik track'lerini topla
         for (let i = 0; i < totalStories; i++) {
             musicTracks.push(document.getElementById('music' + i));
         }
@@ -522,17 +474,17 @@
         createParticles('particles15');
 
         function playStoryMusic(storyIndex) {
-            // Stop previous music
+            // Önceki müziği durdur
             if (currentMusic) {
                 currentMusic.pause();
                 currentMusic.currentTime = 0;
             }
 
-            // Play new music
+            // Yeni müziği çal
             if (musicTracks[storyIndex] && musicPlaying) {
                 currentMusic = musicTracks[storyIndex];
                 currentMusic.volume = 0.5;
-                currentMusic.play().catch(e => console.log('Music could not be played:', e));
+                currentMusic.play().catch(e => console.log('Müzik çalınamadı:', e));
             }
         }
 
@@ -553,7 +505,7 @@
                 dot.classList.toggle('active', index <= currentStory);
             });
 
-            // Play story music
+            // Hikaye müziğini çal
             playStoryMusic(currentStory);
         }
 
@@ -568,18 +520,6 @@
             if (currentStory > 0) {
                 currentStory--;
                 updateStory();
-            }
-        }
-
-        function toggleMusic() {
-            musicPlaying = !musicPlaying;
-            
-            if (musicPlaying) {
-                playStoryMusic(currentStory);
-            } else {
-                if (currentMusic) {
-                    currentMusic.pause();
-                }
             }
         }
 
@@ -615,8 +555,6 @@
 
         // Mouse click navigation
         document.querySelector('.container').addEventListener('click', (e) => {
-            if (e.target.closest('.music-control')) return;
-            
             const clickX = e.clientX;
             const screenWidth = window.innerWidth;
             
